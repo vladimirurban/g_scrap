@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Scraper</title>
+    <link rel="stylesheet" href="{% static 'search/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>G-Scraper</h1>
+        <form method="post" class="search-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Vyhledat</button>
+        </form>
+
+        {% if results %}
+            <h2>Výsledky vyhledávání:</h2>
+            <ul class="results-list">
+                {% for result in results %}
+                    <li class="result-item">
+                        <strong>{{ result.title }}</strong><br>
+                        <a href="{{ result.link }}" class="result-link">{{ result.link }}</a><br>
+                        <em>{{ result.description }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <form action="{% url 'download_csv' keyword=keyword %}" method="get">
+                <button type="submit" class="btn download-btn">Uložit výsledky hledání jako .csv</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
