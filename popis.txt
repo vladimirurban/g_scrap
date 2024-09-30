@@ -1,0 +1,12 @@
+Server vykreslí výchozí HTML šablonu index.html s formulářem pro zadání klíčového slova. 
+Uživatel zadá klíčové slovo a kliknutím na tlačítko pro vyhledávání se generuje HTTP POST požadavek, 
+přičemž funkce index(request) kontroluje, zda je formulář platný pomocí form.is_valid().
+
+Pokud je formulář platný, vezme klíčové slovo z formuláře a volá funkci search_google(keyword). 
+Tato funkce provádí HTTP GET požadavek na Google s klíčovým slovem a po obdržení odpovědi analyzuje obsah HTML pomocí BeautifulSoup.
+
+Z odpovědi se extrahují jednotlivé výsledky vyhledávání (tituly, odkazy, popisy), které se ukládají do seznamu search_results. 
+Po úspěšném vyhledávání funkce index(request) předá výsledky šabloně index.html, která je zobrazí uživateli.
+
+Když uživatel klikne na tlačítko pro stažení, funkce download_csv načte výsledky uložené v request.session['search_results'] 
+a pokud jsou k dispozici, csv.writer zapíše jednotlivé výsledky do CSV formátu a vrátí je uživateli jako soubor ke stažení.
